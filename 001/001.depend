@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1474806319 source:/home/misiyu/projectfile/c/001/main.c
+	<stdio.h>
+	<stdlib.h>
+

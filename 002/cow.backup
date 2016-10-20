@@ -1,0 +1,92 @@
+#include <stdio.h>
+
+#define List_len 1165000
+int cowNum[List_len];
+int newCow[List_len];
+
+int init();
+int bornDead();
+int getM(int n);
+
+int m,n,p,k;
+int main()
+{
+
+    if (init())
+    {
+
+	    return 1;
+    }
+    bornDead();
+    return 0;
+}
+
+int init()
+{
+	scanf("%d%d%d%d",&m,&n,&p,&k);
+	if(!(1<m && m<n))
+		return 1;
+	if(!(n<p && p<60))
+		return 1;
+	int i=0;
+	for (i = 0; i < List_len; i++)
+	{
+		cowNum[i]=0;
+		newCow[i]=0;
+	}
+	cowNum[0]=newCow[0]=1;
+	return 0;
+}
+
+int bornDead()
+{
+	int i;
+	int tempi=0;
+	int abandon =0;
+	for (i = 1; i <= k; i++)
+	{
+		tempi = i%List_len;
+		/*if(i<List_len)*/
+		/*{*/
+		if(i<m)
+		{
+			newCow[getM(tempi)] = 0;
+			abandon = 0;
+		}
+		else
+		{
+			if (i< n)
+			{
+				int j=0;
+				for(j=tempi-m;j>=0;j--)
+					newCow[tempi]+= newCow[j];
+				abandon=0;
+			}
+			else
+			{
+				int j=0;
+				for(j=tempi-m;j>=tempi-n;j--)
+					newCow[tempi]+= newCow[j];
+
+				if (i<p)
+				{
+					abandon = 0;
+				}
+				else
+				{
+					abandon = newCow[tempi-p];
+				}
+			}
+		}
+
+		cowNum[tempi] = cowNum[tempi-1] + newCow[tempi] - abandon;
+		/*}*/
+
+	}
+	printf("%d\n",cowNum[k%List_len]);
+	return 0;
+}
+int getM(int n)
+{
+	return (n+List_len)%List_len;
+}
